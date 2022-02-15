@@ -26,7 +26,7 @@
 
     <div class="container">
       <div class="copyright">
-        &copy; Copyright <strong><span>Mapen</span></strong>. All Rights Reserved
+        &copy; Copyright <strong><span><a style="color: inherit;text-decoration: none;" href="https://github.com/Atsukachi/mapen" target="_blank">Mapen</a></span></strong>. All Rights Reserved
       </div>
     </div>
   </footer>

@@ -65,7 +65,7 @@
             <!-- ============================================================== -->
             <div class="page-breadcrumb">
                 <div class="row">
-                    <div class="col-7 align-self-center">
+                    <div class="col-lg-7 col-lg-push-5 align-self-center">
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
                             <?php
                             //ubah timezone menjadi jakarta
@@ -100,9 +100,9 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="col-5 align-self-center">
-                        <div class="customize-input float-right">
-                            <h3 class="custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
+                    <div class="col-lg-5 col-lg-pull-7 align-self-center">
+                        <div class="customize-input">
+                            <h3 class="custom-select-set form-control bg-white border-0 custom-shadow custom-radius d-flex justify-content-center">
                                 <?php
                                 //tampilkan pesan
                                 echo tgl_indo(date('Y-m-d'));

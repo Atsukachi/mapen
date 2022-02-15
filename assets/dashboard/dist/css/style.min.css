@@ -14302,7 +14302,7 @@ a.text-purple:hover {
   position: relative;
 }
 .topbar .customize-input .form-control {
-  padding: 13px 43px 13px 28px;
+  padding: 13px 28px 13px 28px;
   color: #b8c3d5;
   display: inline-block;
   line-height: 13px;
@@ -14314,6 +14314,20 @@ a.text-purple:hover {
   height: 20px;
   width: 20px;
 }
+.page-wrapper .page-breadcrumb .customize-input {
+  position: relative;
+}
+.page-wrapper .page-breadcrumb .customize-input .form-control {
+  padding: 13px 28px 13px 28px;
+  color: #000;
+  display: inline-block;
+  line-height: 13px;
+}
+/* @media (max-width: 860px) {
+  .page-wrapper .page-breadcrumb .customize-input {
+    margin: 50px;
+  }
+} */
 .topbar .dropdown-menu {
   padding-top: 0;
   border: 0;
@@ -15106,9 +15120,17 @@ ul.list-style-none li a:hover {
   background-size: auto;
 }
 .custom-select-set {
-  height: 44px;
+  height: 38px;
   line-height: 25px;
   padding: 10px 30px 13px 30px;
+}
+@media (max-width: 860px) {
+  .custom-select-set {
+    /* width: max-content; */
+  }
+  .customize-input {
+    width: max-content;
+  }
 }
 .dropdown-toggle::after {
   display: none;
