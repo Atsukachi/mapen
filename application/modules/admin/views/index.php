@@ -83,18 +83,42 @@
             		</div>
             	</div>
             	<!-- column -->
-            	<!-- <div class="col-lg-12" style="padding: 0 0">
-            		<div class="card">
-            			<div class="card-body">
-            				<h4 class="card-title">Chart Jumlah Event per bulan</h4>
-            				<?php foreach ($event_bulan as $em) {
-								$bln[] = $em->bln;
-								$totalevent[] = $em->event;
-							} ?>
-            				<div id="chart-tasks-overview"></div>
+            	<!-- <?php
+						$a = time();
+						$b = time() + 28800;
+						var_dump($a);
+						var_dump($b);
+						var_dump(date('H:i:s', $a));
+						var_dump(date('H:i:s', $b));
+						?> -->
+            	<div class="row">
+            		<div class="col-md-7">
+            			<div class="card">
+            				<div class="card-body">
+            					<h4 class="card-title">Chart Jumlah Presensi Hari ini</h4>
+            					<?php foreach ($presensi_hari as $ph) {
+									$tgl[] = $ph->date;
+									$status[] = $ph->status;
+									$tepatwaktu[] = $ph->tepatwaktu;
+									$terlambat[] = $ph->terlambat;
+								} ?>
+            					<div id="chart-tasks-overview"></div>
+            				</div>
             			</div>
             		</div>
-            	</div> -->
+            		<div class="col-md-5">
+            			<div class="card">
+            				<div class="card-body">
+            					<h4 class="card-title">Chart Jumlah User</h4>
+            					<?php foreach ($get_user as $gu) {
+									$role[] = $gu->role;
+									$position[] = $gu->position;
+								} ?>
+            					<div id="chart-total-pie"></div>
+            				</div>
+            			</div>
+            		</div>
+            	</div>
             	<!-- column -->
             	<!-- multi-column ordering -->
             	<div class="row">
@@ -112,18 +136,6 @@
 								</div>
 							</div>
 						</div> -->
-            		<div class="col-md-5">
-            			<div class="card">
-            				<div class="card-body">
-            					<h4 class="card-title">Chart Jumlah User</h4>
-            					<?php foreach ($get_user as $gu) {
-									$role[] = $gu->role;
-									$position[] = $gu->position;
-								} ?>
-            					<div id="chart-total-pie"></div>
-            				</div>
-            			</div>
-            		</div>
             	</div>
             	<!-- *************************************************************** -->
             	<!-- End First Cards -->
@@ -139,59 +151,84 @@
             			chart: {
             				type: "bar",
             				fontFamily: 'inherit',
-            				height: 320,
-            				parentHeightOffset: 0,
-            				toolbar: {
-            					show: false,
-            				},
-            				animations: {
-            					enabled: false
-            				},
+            				height: 222,
             			},
             			plotOptions: {
             				bar: {
-            					columnWidth: '50%',
+            					horizontal: false,
+            					columnWidth: '30%',
             				}
             			},
             			dataLabels: {
             				enabled: false,
             			},
-            			fill: {
-            				opacity: 1,
+            			stroke: {
+            				show: true,
+            				width: 8,
+            				colors: ['transparent']
             			},
             			series: [{
-            				name: "Total Event",
-            				data: <?= json_encode($totalevent); ?>
+            				name: 'Tepat Waktu',
+            				data: <?= json_encode($tepatwaktu); ?>
+            			}, {
+            				name: 'Terlambat',
+            				data: <?= json_encode($terlambat); ?>
             			}],
-            			grid: {
-            				padding: {
-            					top: -20,
-            					right: 0,
-            					left: -4,
-            					bottom: -4
-            				},
-            				strokeDashArray: 4,
-            			},
             			xaxis: {
-            				labels: {
-            					padding: 0
+            				axisTicks: {
+            					show: false
             				},
-            				tooltip: {
-            					enabled: false
-            				},
-            				axisBorder: {
-            					show: false,
-            				},
-            				categories: <?= json_encode($bln); ?>,
+            				position: 'top',
+            				categories: <?= json_encode($status); ?>
             			},
             			yaxis: {
             				labels: {
             					padding: 4
             				},
+            				formatter: function(val) {
+            					if (data === undefined || data.length === 0)
+            						return 'No data'
+            					else
+            						return val
+            				},
             			},
-            			colors: ["#206bc4"],
+            			colors: ["#28a745", "#dc3545"],
+            			legend: {
+            				show: true,
+            			},
+            		})).render();
+            	});
+            	// @formatter:on
+            </script>
+            <script>
+            	// @formatter:off
+            	document.addEventListener("DOMContentLoaded", function() {
+            		window.ApexCharts && (new ApexCharts(document.getElementById('chart-total-pie'), {
+            			chart: {
+            				type: "pie",
+            				fontFamily: 'inherit',
+            				height: 240,
+            				sparkline: {
+            					enabled: true
+            				},
+            				animations: {
+            					enabled: false
+            				},
+            			},
+            			fill: {
+            				opacity: 1,
+            			},
+            			series: <?= json_encode($position, JSON_NUMERIC_CHECK); ?>,
+            			labels: <?= json_encode($role); ?>,
+            			grid: {
+            				strokeDashArray: 4,
+            			},
+            			colors: ["#6c757d", "#007bff", "#ffc107"],
             			legend: {
             				show: false,
+            			},
+            			tooltip: {
+            				fillSeriesColor: false
             			},
             		})).render();
             	});
@@ -257,40 +294,6 @@
             			colors: ["#ff922b", "#206bc4", "#5eba00"],
             			legend: {
             				show: false,
-            			},
-            		})).render();
-            	});
-            	// @formatter:on
-            </script>
-            <script>
-            	// @formatter:off
-            	document.addEventListener("DOMContentLoaded", function() {
-            		window.ApexCharts && (new ApexCharts(document.getElementById('chart-total-pie'), {
-            			chart: {
-            				type: "pie",
-            				fontFamily: 'inherit',
-            				height: 243,
-            				sparkline: {
-            					enabled: true
-            				},
-            				animations: {
-            					enabled: false
-            				},
-            			},
-            			fill: {
-            				opacity: 1,
-            			},
-            			series: <?= json_encode($position, JSON_NUMERIC_CHECK); ?>,
-            			labels: <?= json_encode($role); ?>,
-            			grid: {
-            				strokeDashArray: 4,
-            			},
-            			colors: ["#6c757d", "#007bff", "#ffc107"],
-            			legend: {
-            				show: false,
-            			},
-            			tooltip: {
-            				fillSeriesColor: false
             			},
             		})).render();
             	});

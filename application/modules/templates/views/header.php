@@ -23,6 +23,7 @@
     <link href="<?= base_url('assets/dashboard/') ?>libs/morris.js/morris.css" rel="stylesheet">
     <link href="<?= base_url('assets/dashboard/') ?>chosen/dist/css/component-chosen.min.css" rel="stylesheet">
     <link href="<?= base_url('assets/dashboard/') ?>extra-libs/datepicker/bootstrap-datepicker.css" rel="stylesheet">
+    <link href="<?= base_url('assets/dashboard/') ?>extra-libs/clockpicker-gh-pages/dist/jquery-clockpicker.min.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

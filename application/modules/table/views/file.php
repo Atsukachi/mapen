@@ -34,7 +34,7 @@
                                                     <td class="align-middle"><?php echo $fl->extension ?></td>
                                                     <td>
                                                         <a class="btn waves-effect waves-light btn-success text-white" data-toggle="modal" data-target="#edit-modal<?php echo $fl->file_id; ?>"> <i class="fa fa-pencil-alt"></i> Edit</a>
-                                                        <a href="<?= base_url('table/hapus_file/' . $fl->file_id) ?>" class="btn btn-small btn-danger">Hapus</a>
+                                                        <a href="<?= base_url('table/hapus_file/' . $fl->file_id) ?>" class="btn btn-small btn-danger"><i class="fa fa-trash"></i> Hapus</a>
                                                     </td>
                                                 </tr>
                                             <?php } ?>

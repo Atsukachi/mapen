@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <!-- ============================================================== -->
-                            <!-- End PAge Content -->
+                            <!-- End Page Content -->
                             <!-- ============================================================== -->
                         </div>
                         <!-- Tambah modal content -->
@@ -111,6 +111,7 @@
                                                 <div class="form-group text-center">
                                                     <button class="btn btn-primary" type="submit">Submit</button>
                                                 </div>
+                                            </div>
 
                                         </form>
 

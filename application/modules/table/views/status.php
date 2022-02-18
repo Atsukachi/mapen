@@ -7,7 +7,7 @@
                 <!-- ============================================================== -->
                 <!-- multi-column ordering -->
                 <div class="row">
-                    <div class="col-md">
+                    <div class="col-md-7">
                         <div class="card">
                             <div class="card-body">
 
@@ -23,6 +23,8 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Status</th>
+                                                <th>Jam Datang</th>
+                                                <th>Jam Pulang</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -32,9 +34,11 @@
                                                 <tr class="text-center">
                                                     <td class="align-middle"><?php echo $no++; ?></td>
                                                     <td class="align-middle"><?php echo $st->status ?></td>
+                                                    <td class="align-middle"><?php echo $st->jam_datang ?></td>
+                                                    <td class="align-middle"><?php echo $st->jam_pulang ?></td>
                                                     <td>
-                                                        <a class="btn waves-effect waves-light btn-success text-white" data-toggle="modal" data-target="#edit-modal<?php echo $st->id_status; ?>"> <i class="fa fa-pencil-alt"></i> Edit</a>
-                                                        <a href="<?= base_url('table/hapus_status/' . $st->id_status) ?>" class="btn btn-small btn-danger">Hapus</a>
+                                                        <a class="btn waves-effect waves-light btn-success text-white" data-toggle="modal" data-target="#edit-modal<?php echo $st->id_status; ?>"><i class="fa fa-pencil-alt"></i></a>
+                                                        <a href="<?= base_url('table/hapus_status/' . $st->id_status) ?>" class="btn btn-small btn-danger"><i class="fa fa-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -52,9 +56,30 @@
                                     <div class="form-group">
                                         <label for="">Nama Status</label>
                                         <input type="text" class="form-control" name="status" placeholder="Nama Status">
-                                        <br>
-                                        <button type="submit" class="btn btn-block btn-primary">Selesai</button>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="">Jam Datang</label>
+                                                <div class="input-group clockpicker">
+                                                    <input type="text" name="jam_datang" id="jam_datang" class="form-control" value="">
+                                                    <div class="input-group-addon p-2 d-flex align-self-center">
+                                                        <i class="fas fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label for="">Jam Pulang</label>
+                                                <div class="input-group clockpicker">
+                                                    <input type="text" name="jam_pulang" id="jam_pulang" class="form-control" value="">
+                                                    <div class="input-group-addon p-2 d-flex align-self-center">
+                                                        <i class="fas fa-clock"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-block btn-primary">Selesai</button>
                                 </form>
                             </div>
                         </div>
@@ -83,6 +108,28 @@
                                             <label for="menuname">Menu Name</label>
                                             <input class="form-control" type="hidden" id="id_status" value="<?= $st->id_status; ?>" name="id_status">
                                             <input class="form-control" type="text" id="status" value="<?= $st->status; ?>" name="status" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="">Jam Datang</label>
+                                                    <div class="input-group clockpicker">
+                                                        <input type="text" name="jam_datang" id="jam_datang" class="form-control" value="<?= $st->jam_datang; ?>">
+                                                        <div class="input-group-addon p-2 d-flex align-self-center">
+                                                            <i class="fas fa-clock"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="">Jam Pulang</label>
+                                                    <div class="input-group clockpicker">
+                                                        <input type="text" name="jam_pulang" id="jam_pulang" class="form-control" value="<?= $st->jam_pulang; ?>">
+                                                        <div class="input-group-addon p-2 d-flex align-self-center">
+                                                            <i class="fas fa-clock"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                 </div>
                                 <div class="form-group text-center">

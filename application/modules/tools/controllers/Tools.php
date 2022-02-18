@@ -23,7 +23,7 @@ class Tools extends CI_Controller
 		$this->load->view('templates/topbar', $data);
 		$this->load->view('templates/sidebar', $data);
 		$this->load->view('tools/menu', $data);
-		$this->load->view('templates/footer');
+		$this->load->view('templates/footer', $data);
 	}
 	public function addmenu()
 	{
@@ -63,12 +63,10 @@ class Tools extends CI_Controller
 		$this->load->view('templates/topbar', $data);
 		$this->load->view('templates/sidebar', $data);
 		$this->load->view('tools/submenu', $data);
-		$this->load->view('templates/footer');
+		$this->load->view('templates/footer', $data);
 	}
 	public function addsubmenu()
 	{
-
-
 		$data = [
 			'menu_id' => $this->input->post('menu_id'),
 			'title' => $this->input->post('title'),

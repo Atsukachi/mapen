@@ -18,22 +18,22 @@
             <!-- ============================================================== -->
             <!-- All Jquery -->
             <!-- ============================================================== -->
+
+            <!-- apps -->
             <script src="<?= base_url('assets/dashboard/') ?>libs/jquery/dist/jquery.min.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>libs/popper.js/dist/umd/popper.min.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>libs/bootstrap/dist/js/bootstrap.min.js"></script>
-            <!-- apps -->
-            <!-- apps -->
             <script src="<?= base_url('assets/dashboard/') ?>dist/js/app.min.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>dist/js/app.init-menusidebar.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>dist/js/app-style-switcher.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>dist/js/feather.min.js"></script>
-            <!--load all styles -->
+            <!-- load all styles -->
             <script src="<?= base_url('assets/dashboard/') ?>dist/js/sidebarmenu.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>extra-libs/sparkline/sparkline.js"></script>
-            <!--Custom JavaScript -->
+            <!-- custom JavaScript -->
             <script src="<?= base_url('assets/dashboard/') ?>dist/js/custom.min.js"></script>
-            <!--This page JavaScript -->
+            <!-- this page JavaScript -->
             <script src="<?= base_url('assets/dashboard/') ?>extra-libs/c3/d3.min.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>libs/chartist/dist/chartist.min.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
@@ -41,7 +41,7 @@
             <script src="<?= base_url('assets/dashboard/') ?>extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>dist/js/pages/dashboards/dashboard1.min.js"></script>
 
-            <!--This page plugins -->
+            <!-- this page plugins -->
             <script src="<?= base_url('assets/dashboard/') ?>extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>dist/js/pages/datatable/datatable-basic.init.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>dist/js/sidebarmenu.js"></script>
@@ -67,7 +67,7 @@
             <script src="<?= base_url('assets/dashboard/') ?>libs/apexcharts/dist/apexcharts.min.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>dist/js/pages/chartjs/chartjs.init.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>libs/chart.js/dist/Chart.min.js"></script>
-            <!--Custom Text Area -->
+            <!-- Custom Text Area -->
             <script src="<?= base_url('assets/dashboard/') ?>chosen/chosen.jquery.min.js"></script>
             <script src="<?= base_url('assets/dashboard/') ?>ckeditor/ckeditor.js"></script>
             <script>
@@ -126,8 +126,17 @@
                 }
                 startTime();
             </script>
+            <!-- Time Picker -->
+            <script src="<?= base_url('assets/dashboard/') ?>extra-libs/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.js"></script>
             <script>
-                // change filename in placeholder
+                $('.clockpicker').clockpicker({
+                    placement: 'bottom',
+                    align: 'left',
+                    autoclose: true
+                });
+            </script>
+            <!-- Change filename in placeholder -->
+            <script>
                 $(document).on('change', '.custom-file-input', function(event) {
                     $(this).next('.custom-file-label').html(event.target.files[0].name);
                 })

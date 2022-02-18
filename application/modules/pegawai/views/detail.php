@@ -122,19 +122,18 @@
                                         $jam = date('H:i:s');
 
                                         //atur salam menggunakan IF
-                                        if ($jam > '05:30:00' && $jam < '10:00:00') {
-                                            $salam = 'Pagi';
-                                        } elseif ($jam >= '10:00:00' && $jam < '15:00:00') {
-                                            $salam = 'Siang';
-                                        } elseif ($jam < '18:00:00') {
-                                            $salam = 'Sore';
-                                        } else {
-                                            $salam = 'Malam';
+                                        $data['salam'] = $this->db->get('status')->result();
+                                        $salam = $data['salam'];
+                                        foreach ($salam as $s) {
+                                            if ($jam > $s->jam_datang && $jam < $s->jam_pulang) {
+                                                //tampilkan pesan
+                                                echo 'Selamat ' . $s->status . ',' . $user['name'] . '!';
+                                            }
                                         }
                                         ?>
                                     </div>
                                     <div class="card-body table-border-style">
-                                        <div class="table-responsive">
+                                        <div class="table-responsive pb-3">
                                             <div class="panel-body mb-2" style="height:400px;" id="map-canvas"></div>
                                             <?php if ($this->session->userdata('role_id') == '1' || $this->session->userdata('role_id') == '2') { ?>
                                                 <div style="padding-top: 15px;">
@@ -156,6 +155,7 @@
                                                         <th class="text-center">Kerja</th>
                                                         <th class="text-center" style="display:inline-block; width: 250px">Foto</th>
                                                         <th class="text-center">Lokasi</th>
+                                                        <th class="text-center">Keterangan</th>
                                                         <?php if ($this->session->userdata('role_id') == 1 || $this->session->userdata('role_id') == 2) { ?>
                                                             <th class="text-center">Aksi</th>
                                                         <?php } ?>
@@ -188,6 +188,13 @@
                                                             <?php } ?>
                                                             <td class="align-middle text-center">
                                                                 <button id="viewmarkerpegawai" data-idpegawai="<?= $pl['id'] ?>" class="btn waves-effect waves-light text-primary"> <i class="fas fa-map-marker-alt"></i> Cek Lokasi</button>
+                                                            </td>
+                                                            <td class="align-middle text-center">
+                                                                <?php if ($pl['cek_presensi'] == 1) { ?>
+                                                                    <span class="badge bg-success text-white">Tepat Waktu</span>
+                                                                <?php } else { ?>
+                                                                    <span class="badge bg-danger text-white">Terlambat</span>
+                                                                <?php } ?>
                                                             </td>
                                                             <?php if ($this->session->userdata('role_id') == 1 || $this->session->userdata('role_id') == 2) { ?>
                                                                 <td class=" align-middle text-center">

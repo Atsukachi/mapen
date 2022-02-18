@@ -210,6 +210,7 @@ class Pegawai extends CI_Controller
 		is_present_in();
 		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 		$data['title'] = "Halaman Presensi Pegawai";
+		$data['salam'] = $this->db->get('status')->result();
 		$data['kerja'] = $this->pegawai->getDataKerja()->result();
 		$data['presensi'] = $this->pegawai->getDataPresensi()->result_array();
 		$data['presensi_cek'] = $this->pegawai->getDataCekPresensi($id_riwayat)->result_array();
@@ -225,6 +226,8 @@ class Pegawai extends CI_Controller
 		if (isset($_POST['submit'])) {
 			$user_id = $this->input->post('user_id');
 			$tanggal = time();
+			$jam_now = date("H:i:s", $tanggal);
+			$salam = $data['salam'];
 			$date = date("Y-m-d");
 			$id_riwayat = $this->input->post('id_riwayat');
 			$status = $this->input->post('status_id');
@@ -236,35 +239,72 @@ class Pegawai extends CI_Controller
 			$img = base64_decode($image);
 			$filename = 'image_' . time() . '.png';
 			file_put_contents(FCPATH . '/assets/images/presensi/' . $filename, $img);
-			if (empty($check)) {
-				$data = array(
-					'user_id' => $user_id,
-					'tanggal' => $tanggal,
-					'date' => $date,
-					'riwayat' => $id_riwayat,
-					'status' => $status,
-					'foto' => '',
-					'kerja' => $kerja,
-					'lat' => $lat,
-					'lng' => $lng,
-					'cek_presensi' => 1
-				);
-				unlink(FCPATH . '/assets/document/images/presensi/' . $filename);
-			} else {
-				$data = array(
-					'user_id' => $user_id,
-					'tanggal' => $tanggal,
-					'date' => $date,
-					'riwayat' => $id_riwayat,
-					'status' => $status,
-					'foto' => $filename,
-					'kerja' => $kerja,
-					'lat' => $lat,
-					'lng' => $lng,
-					'cek_presensi' => 1
-				);
-			}
-			// var_dump($data);
+			foreach ($salam as $s) :
+				if ($status == $s->id_status) {
+					if (empty($check)) {
+						$cek_terlambat = date('H:i:s', strtotime($s->jam_datang . '+30 minute'));
+						// var_dump($cek_terlambat);
+						// die;
+						if ($jam_now > $s->jam_datang && $jam_now < $cek_terlambat) {
+							$data = array(
+								'user_id' => $user_id,
+								'tanggal' => $tanggal,
+								'date' => $date,
+								'riwayat' => $id_riwayat,
+								'status' => $status,
+								'foto' => '',
+								'kerja' => $kerja,
+								'lat' => $lat,
+								'lng' => $lng,
+								'cek_presensi' => 1
+							);
+						} else if ($jam_now > $cek_terlambat && $jam_now < $s->jam_pulang) {
+							$data = array(
+								'user_id' => $user_id,
+								'tanggal' => $tanggal,
+								'date' => $date,
+								'riwayat' => $id_riwayat,
+								'status' => $status,
+								'foto' => '',
+								'kerja' => $kerja,
+								'lat' => $lat,
+								'lng' => $lng,
+								'cek_presensi' => 2
+							);
+							unlink(FCPATH . '/assets/images/presensi/' . $filename);
+						}
+					} else {
+						$cek_terlambat = date('H:i:s', strtotime($s->jam_datang . '+30 minute'));
+						if ($jam_now > $s->jam_datang && $jam_now < $cek_terlambat) {
+							$data = array(
+								'user_id' => $user_id,
+								'tanggal' => $tanggal,
+								'date' => $date,
+								'riwayat' => $id_riwayat,
+								'status' => $status,
+								'foto' => $filename,
+								'kerja' => $kerja,
+								'lat' => $lat,
+								'lng' => $lng,
+								'cek_presensi' => 1
+							);
+						} else if ($jam_now > $cek_terlambat && $jam_now < $s->jam_pulang) {
+							$data = array(
+								'user_id' => $user_id,
+								'tanggal' => $tanggal,
+								'date' => $date,
+								'riwayat' => $id_riwayat,
+								'status' => $status,
+								'foto' => $filename,
+								'kerja' => $kerja,
+								'lat' => $lat,
+								'lng' => $lng,
+								'cek_presensi' => 2
+							);
+						}
+					}
+				}
+			endforeach;
 			$this->db->insert('presensi', $data);
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Present has been Added!</div>');
 			redirect('pegawai');

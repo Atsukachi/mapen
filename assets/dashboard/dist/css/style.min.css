@@ -1,3 +1,8 @@
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
 .fa-fw,
 .fa-li {
   text-align: center;
@@ -14207,7 +14212,7 @@ a.text-purple:hover {
 }
 .lds-ripple .lds-pos {
   position: absolute;
-  border: 2px solid #2962ff;
+  border: 2px solid #52b8db;
   opacity: 1;
   border-radius: 50%;
   animation: lds-ripple 1s cubic-bezier(0, 0.1, 0.5, 1) infinite;
@@ -15120,16 +15125,17 @@ ul.list-style-none li a:hover {
   background-size: auto;
 }
 .custom-select-set {
-  height: 38px;
+  width: max-content;
+  height: 60px;
   line-height: 25px;
   padding: 10px 30px 13px 30px;
 }
-@media (max-width: 860px) {
+@media (max-width: 345px) {
   .custom-select-set {
-    /* width: max-content; */
+    height: 60px;
   }
-  .customize-input {
-    width: max-content;
+  .custom-select-set h3 {
+    word-break: keep-all;
   }
 }
 .dropdown-toggle::after {

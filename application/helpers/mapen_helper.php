@@ -239,7 +239,7 @@ function salam_jam()
     $jam = date('H:i:s');
 
     //atur salam menggunakan IF
-    if ($jam > '05:30:00' && $jam < '10:00:00') {
+    if ($jam > '07:00:00' && $jam < '10:00:00') {
         $salam = 'Pagi';
     } elseif ($jam >= '10:00:00' && $jam < '15:00:00') {
         $salam = 'Siang';
@@ -260,7 +260,7 @@ function cek_jam()
     $jam = date('H:i:s');
 
     //atur salam menggunakan IF
-    if ($jam > '05:30:00' && $jam < '10:00:00') {
+    if ($jam > '07:00:00' && $jam < '10:00:00') {
         $cek = '1';
     } elseif ($jam >= '10:00:00' && $jam < '15:00:00') {
         $cek = '2';

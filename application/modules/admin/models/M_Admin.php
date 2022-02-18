@@ -42,19 +42,18 @@ class M_Admin extends CI_Model
         return $this->db->update('user_sub_menu', $data);
     }
 
-    // function getPenjualanEvent()
-    // {
-    //     $tahun = date("Y");
-    //     $query = "SELECT id,bulan as bln,event from bulan 
-    //     LEFT JOIN( 
-    //         SELECT MONTH(tgl_event) AS name, COUNT(category_id) AS event 
-    //         FROM event 
-    //         WHERE YEAR(tgl_event) = '$tahun'
-    //         GROUP BY MONTH(tgl_event)
-    //         ) 
-    //     evt ON (bulan.id=evt.name) ORDER BY bulan.id ASC";
-    //     return $this->db->query($query);
-    // }
+    function getPresensibyHari()
+    {
+        $hari = date("Y-m-d");
+        $query = "SELECT pr.date, st.status, 
+        (SELECT COUNT(id) FROM presensi WHERE date = '$hari' AND cek_presensi = 1 AND status=st.id_status) as tepatwaktu,
+        (SELECT COUNT(id) FROM presensi WHERE date = '$hari' AND cek_presensi = 2 AND status=st.id_status) as terlambat
+        FROM presensi pr, status st
+        WHERE pr.date = '$hari' AND pr.status = st.id_status
+        GROUP BY pr.status";
+        return $this->db->query($query);
+    }
+
     // function getPenjualanKategori()
     // {
     //     $tahun = date("Y");

@@ -76,7 +76,14 @@ class Table extends CI_Controller
     public function tambah_status()
     {
 
-        $this->db->insert('status', ['status' => $this->input->post('status')]);
+        $this->db->insert(
+            'status',
+            [
+                'status' => $this->input->post('status'),
+                'jam_datang' => $this->input->post('jam_datang'),
+                'jam_pulang' => $this->input->post('jam_pulang')
+            ]
+        );
         $this->session->set_flashdata('message', '<div class="alert alert-success"
 		role="alert">New Status Presensi Added !!!</div>');
         redirect('table/status');
@@ -91,7 +98,9 @@ class Table extends CI_Controller
     public function edit_status()
     {
         $data = array(
-            'status' => $this->input->post('status')
+            'status' => $this->input->post('status'),
+            'jam_datang' => $this->input->post('jam_datang'),
+            'jam_pulang' => $this->input->post('jam_pulang')
         );
         $this->table->Medit_status($data);
         $this->session->set_flashdata('message', '<div class="alert alert-success"

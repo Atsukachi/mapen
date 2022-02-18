@@ -65,7 +65,7 @@
             <!-- ============================================================== -->
             <div class="page-breadcrumb">
                 <div class="row">
-                    <div class="col-lg-7 col-lg-push-5 align-self-center">
+                    <div class="col-lg-10 col-lg-push-2 align-self-center">
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
                             <?php
                             //ubah timezone menjadi jakarta
@@ -74,22 +74,15 @@
                             //ambil jam, menit dan detik
                             $jam = date('H:i:s');
 
-                            //atur salam menggunakan IF
-                            if ($jam > '05:30:00' && $jam < '10:00:00') {
-                                $salam = 'Pagi';
-                            } elseif ($jam >= '10:00:00' && $jam < '15:00:00') {
-                                $salam = 'Siang';
-                            } elseif ($jam < '18:00:00') {
-                                $salam = 'Sore';
-                            } else {
-                                $salam = 'Malam';
+                            $data['salam'] = $this->db->get('status')->result();
+                            $salam = $data['salam'];
+                            foreach ($salam as $s) {
+                                if ($jam > $s->jam_datang && $jam < $s->jam_pulang) {
+                                    //tampilkan pesan
+                                    echo 'Selamat ' . $s->status . ',' . $user['name'] . '!';
+                                }
                             }
-
-                            //tampilkan pesan
-                            echo 'Selamat ' . $salam . ',';
                             ?>
-                            <?= $user['name']; ?>
-                            <?= '!' ?>
                         </h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
@@ -100,14 +93,16 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-lg-pull-7 align-self-center">
+                    <div class="col-lg-2 col-lg-pull-10 align-self-center p-0 pt-3">
                         <div class="customize-input">
                             <h3 class="custom-select-set form-control bg-white border-0 custom-shadow custom-radius d-flex justify-content-center">
                                 <?php
                                 //tampilkan pesan
-                                echo tgl_indo(date('Y-m-d'));
-                                echo '&emsp;' . '|' . '&emsp;';
-                                echo '<text id="ontime""></text>'
+                                echo
+                                '<row>
+                                <col>' . tgl_indo(date('Y-m-d')) . '</col>
+                                <br><br><col><p id="ontime""></p></col>
+                                </row>';
                                 ?>
                             </h3>
                         </div>

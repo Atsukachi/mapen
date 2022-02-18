@@ -35,7 +35,7 @@
                                 <td class="align-middle"><?php echo $r->status_id ?></td>
                                 <td>
                                   <a class="btn waves-effect waves-light btn-success text-white" data-toggle="modal" data-target="#edit-modal<?php echo $r->id_riwayat; ?>"> <i class="fa fa-pencil-alt"></i> Edit</a>
-                                  <a href="<?= base_url('table/hapus_riwayat/' . $r->id_riwayat) ?>" class="btn btn-small btn-danger">Hapus</a>
+                                  <a href="<?= base_url('table/hapus_riwayat/' . $r->id_riwayat) ?>" class="btn btn-small btn-danger"><i class="fa fa-trash"></i> Hapus</a>
                                 </td>
                               </tr>
                             <?php } ?>

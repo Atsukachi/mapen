@@ -27,7 +27,7 @@
                         <input type="hidden" readonly class="form-control" id="user_id" name="user_id" value="<?= $user['user_id']; ?>">
                         <div class="form-group">
                           <label for="tanggal">Tanggal</label>
-                          <input type="text" readonly class="form-control" id="tanggal" name="tanggal" value="<?= date("d-m-Y h:i:s") ?>">
+                          <input type="datetime" readonly class="form-control" id="tanggal" name="tanggal" value="<?= date("d-m-Y H:i:s") ?>">
                         </div>
                         <div class="form-group">
                           <label for="kerja">Pilih Metode Kerja</label>
@@ -55,28 +55,17 @@
                         </div>
                         <div class="form-group">
                           <label for="foto">Foto</label><br>
-                          <div class="row">
-                            <div class="col-4">
-                              <div id="take_photo"></div>
-                              <input id="image" type="hidden" name="image" value="">
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-4">
-                              <div class="form-group text-center">
-                                <button type="button" onclick="openCam()" class="btn btn-light-info text-info font-medium radius">On</button>
-                                <button type="button" onclick="closeCam()" class="btn btn-light-info text-info font-medium radius">Off</button>
-                                <button type="button" onclick="batal()" class="btn btn-light-info text-info font-medium radius">Batal</button>
-                              </div>
-                              <div class="form-group text-center">
-                                <!-- <button class="btn btn-danger font-medium radius">Close</button> -->
-                                <input type="button" class="btn btn-warning text-white font-medium radius" value="Take a Photo" onClick="preview()">
-                                <input id="check" name="check" type="hidden">
-                              </div>
-                            </div>
+                          <div id="take_photo"></div>
+                          <input id="image" type="hidden" name="image" value="">
+                          <div class="pt-3">
+                            <button type="button" onclick="openCam()" class="btn btn-light-info text-info font-medium radius">On</button>
+                            <button type="button" onclick="closeCam()" class="btn btn-light-info text-info font-medium radius">Off</button>
+                            <button type="button" onclick="batal()" class="btn btn-light-info text-info font-medium radius">Batal</button>
+                            <!-- <button class="btn btn-danger font-medium radius">Close</button> -->
+                            <input type="button" class="btn btn-warning text-white font-medium radius" value="Take a Photo" onClick="preview()">
+                            <input id="check" name="check" type="hidden">
                           </div>
                         </div>
-
                         <div class="form-group">
                           <label for="lokasi">Lokasi</label>
                           <div class="alert alert-warning" role="alert" style="width:70%">Mohon untuk aktifkan lokasi!</div>

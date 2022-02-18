@@ -16,33 +16,35 @@
                             <div class="col-md-8">
                                 <div class="card-body p-3">
                                     <h4 class="card-title font-weight-bold">My Profile</h4>
-                                    <table class="table mt-2">
-                                        <tr>
-                                            <td scope="col">Name</td>
-                                            <td scope="col" width="5%">:</td>
-                                            <td scope="col"><?= $user['name'] ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="col">Email</td>
-                                            <td scope="col" width="5%">:</td>
-                                            <td scope="col"><?= $user['email'] ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="col">Alamat</td>
-                                            <td scope="col" width="5%">:</td>
-                                            <td scope="col"><?= $user['alamat'] ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="col">Phone</td>
-                                            <td scope="col" width="5%">:</td>
-                                            <td scope="col"><?= $user['telephone'] ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="col">Keahlian / CV</td>
-                                            <td scope="col">:</td>
-                                            <td scope="col"><?= $user['keahlian'] ?></td>
-                                        </tr>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table mt-2">
+                                            <tr>
+                                                <td scope="col">Name</td>
+                                                <td scope="col" width="5%">:</td>
+                                                <td scope="col"><?= $user['name'] ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="col">Email</td>
+                                                <td scope="col" width="5%">:</td>
+                                                <td scope="col"><?= $user['email'] ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="col">Alamat</td>
+                                                <td scope="col" width="5%">:</td>
+                                                <td scope="col"><?= $user['alamat'] ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="col">Phone</td>
+                                                <td scope="col" width="5%">:</td>
+                                                <td scope="col"><?= $user['telephone'] ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="col">Keahlian / CV</td>
+                                                <td scope="col">:</td>
+                                                <td scope="col"><?= $user['keahlian'] ?></td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                     <a class="btn waves-effect waves-light btn-success text-white" href="<?= base_url('profil/download_file/' . $user['user_id']) ?>"> <i class="fas fa-download"></i> Unduh File</a>
                                 </div>
                             </div>
