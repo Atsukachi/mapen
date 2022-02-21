@@ -54,23 +54,27 @@ class M_Admin extends CI_Model
         return $this->db->query($query);
     }
 
-    // function getPenjualanKategori()
-    // {
-    //     $tahun = date("Y");
-    //     $query =
-    //         "SELECT id,bulan,webinar,lomba,workshop from bulan 
-    //      LEFT JOIN( 
-    //         SELECT MONTH(tgl_event) AS tanggal, 
-    //         COUNT(IF(category_id = 1, category_id, null)) as webinar, 
-    //         COUNT(IF(category_id = 2, category_id, null)) as lomba, 
-    //         COUNT(IF(category_id = 3, category_id, null)) as workshop 
-    //         FROM event 
-    //         WHERE YEAR(tgl_event) = '$tahun'
-    //         GROUP BY MONTH(tgl_event)) 
-    //      evt ON (bulan.id=evt.tanggal) 
-    //      ORDER BY bulan.id ASC";
-    //     return $this->db->query($query);
-    // }
+    function getPresensibyBulan()
+    {
+        $tahun = date("Y");
+        $query = "SELECT id_bulan, nama_bulan as bln, tepatwaktu, terlambat from bulan 
+        LEFT JOIN( 
+            SELECT MONTH(date) AS name, COUNT(id) AS tepatwaktu
+            FROM presensi 
+            WHERE YEAR(date) = '2022' AND cek_presensi = 1
+            GROUP BY MONTH(date)
+            ) 
+        tw ON (bulan.id_bulan=tw.name)
+         LEFT JOIN( 
+            SELECT MONTH(date) AS name, COUNT(id) AS terlambat
+            FROM presensi 
+            WHERE YEAR(date) = '2022' AND cek_presensi = 2
+            GROUP BY MONTH(date)
+            ) 
+        tl ON (bulan.id_bulan=tl.name) ORDER BY bulan.id_bulan ASC";
+        return $this->db->query($query);
+    }
+
     function getUser()
     {
         $query =

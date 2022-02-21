@@ -96,11 +96,24 @@
             			<div class="card">
             				<div class="card-body">
             					<h4 class="card-title">Chart Jumlah Presensi Hari ini</h4>
-            					<?php foreach ($presensi_hari as $ph) {
-									$tgl[] = $ph->date;
-									$status[] = $ph->status;
-									$tepatwaktu[] = $ph->tepatwaktu;
-									$terlambat[] = $ph->terlambat;
+            					<?php
+								if (!empty($presensi_hari)) {
+									foreach ($presensi_hari as $ph) {
+										$tgl[] = $ph->date;
+										$status[] = $ph->status;
+										$tepatwaktu[] = $ph->tepatwaktu;
+										$terlambat[] = $ph->terlambat;
+									}
+								} else {
+									$tgl[] = date("Y-m-d");
+									// list status
+									$status[0] = "Pagi";
+									$status[1] = "Siang";
+									$status[2] = "Sore";
+									$status[3] = "Malam";
+
+									$tepatwaktu[] = 0;
+									$terlambat[] = 0;
 								} ?>
             					<div id="chart-tasks-overview"></div>
             				</div>
@@ -122,20 +135,19 @@
             	<!-- column -->
             	<!-- multi-column ordering -->
             	<div class="row">
-            		<!-- <div class="col-md-7">
-							<div class="card">
-								<div class="card-body">
-									<h4 class="card-title">Chart Jumlah Kategori Event per bulan</h4>
-									<?php foreach ($kategori_bulan as $kb) {
-										$bulan[] = $kb->bulan;
-										$webinar[] = $kb->webinar;
-										$workshop[] = $kb->workshop;
-										$lomba[] = $kb->lomba;
-									} ?>
-									<div id="chart-line-stroke"></div>
-								</div>
-							</div>
-						</div> -->
+            		<div class="col-md-12">
+            			<div class="card">
+            				<div class="card-body">
+            					<h4 class="card-title">Chart Jumlah Presensi per Bulan</h4>
+            					<?php foreach ($presensi_bulan as $pb) {
+									$bln[] = $pb->bln;
+									$tw_bulan[] = $pb->tepatwaktu;
+									$tl_bulan[] = $pb->terlambat;
+								} ?>
+            					<div id="chart-line-stroke"></div>
+            				</div>
+            			</div>
+            		</div>
             	</div>
             	<!-- *************************************************************** -->
             	<!-- End First Cards -->
@@ -184,12 +196,6 @@
             			yaxis: {
             				labels: {
             					padding: 4
-            				},
-            				formatter: function(val) {
-            					if (data === undefined || data.length === 0)
-            						return 'No data'
-            					else
-            						return val
             				},
             			},
             			colors: ["#28a745", "#dc3545"],
@@ -244,10 +250,10 @@
             				height: 240,
             				parentHeightOffset: 0,
             				toolbar: {
-            					show: false,
+            					show: true,
             				},
             				animations: {
-            					enabled: false
+            					enabled: true
             				},
             			},
             			fill: {
@@ -259,14 +265,11 @@
             				curve: "straight",
             			},
             			series: [{
-            				name: "Webinar",
-            				data: <?= json_encode($webinar); ?>
+            				name: "Tepat Waktu",
+            				data: <?= json_encode($tw_bulan); ?>
             			}, {
-            				name: "Workshop",
-            				data: <?= json_encode($lomba); ?>
-            			}, {
-            				name: "Lomba",
-            				data: <?= json_encode($workshop); ?>
+            				name: "Terlambat",
+            				data: <?= json_encode($tl_bulan); ?>
             			}],
             			grid: {
             				padding: {
@@ -284,16 +287,16 @@
             				tooltip: {
             					enabled: false
             				},
-            				categories: <?= json_encode($bulan); ?>,
+            				categories: <?= json_encode($bln); ?>,
             			},
             			yaxis: {
             				labels: {
             					padding: 4
             				},
             			},
-            			colors: ["#ff922b", "#206bc4", "#5eba00"],
+            			colors: ["#28a745", "#dc3545"],
             			legend: {
-            				show: false,
+            				show: true,
             			},
             		})).render();
             	});

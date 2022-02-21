@@ -20,6 +20,7 @@ class Admin extends CI_Controller
 		$data['get_jmlpresensi'] = $this->admin->getJumlahPresensi()->result_array();
 		$data['get_jmlskp'] = $this->admin->getJumlahSKP()->result_array();
 		$data['presensi_hari'] = $this->admin->getPresensibyHari()->result();
+		$data['presensi_bulan'] = $this->admin->getPresensibyBulan()->result();
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/topbar', $data);
