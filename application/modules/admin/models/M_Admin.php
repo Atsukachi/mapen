@@ -61,14 +61,14 @@ class M_Admin extends CI_Model
         LEFT JOIN( 
             SELECT MONTH(date) AS name, COUNT(id) AS tepatwaktu
             FROM presensi 
-            WHERE YEAR(date) = '2022' AND cek_presensi = 1
+            WHERE YEAR(date) = '$tahun' AND cek_presensi = 1
             GROUP BY MONTH(date)
             ) 
         tw ON (bulan.id_bulan=tw.name)
          LEFT JOIN( 
             SELECT MONTH(date) AS name, COUNT(id) AS terlambat
             FROM presensi 
-            WHERE YEAR(date) = '2022' AND cek_presensi = 2
+            WHERE YEAR(date) = '$tahun' AND cek_presensi = 2
             GROUP BY MONTH(date)
             ) 
         tl ON (bulan.id_bulan=tl.name) ORDER BY bulan.id_bulan ASC";
@@ -109,15 +109,4 @@ class M_Admin extends CI_Model
         $query = "SELECT COUNT(id_skp) as jml_skp FROM skp";
         return $this->db->query($query);
     }
-    // function getJumlahEvent()
-    // {
-    //     $query =
-    //         "SELECT COUNT(id) as jml_event FROM event";
-    //     return $this->db->query($query);
-    // }
-    // function getJumlahBlog(){
-    //     $query = 
-    //     "SELECT COUNT(id) as jml_blog FROM blog";
-    // return $this->db->query($query);
-    // }
 }

@@ -39,11 +39,9 @@
                                     <div class="card-body table-border-style">
                                         <div class="pb-2">
                                             <?php if ($this->session->userdata('role_id') == '1' || $this->session->userdata('role_id') == '2') { ?>
-                                                <div style="padding-top: 15px;">
-                                                    <button class="btn waves-effect waves-light btn-success">
-                                                        <a class="text-white" href="<?= base_url('skp/export/') ?>"> <i class="fas fa-file-export"></i>&ensp;Export Data</a>
-                                                    </button>
-                                                </div>
+                                                <button class="btn waves-effect waves-light btn-success">
+                                                    <a class="text-white" href="<?= base_url('skp/export/') ?>"> <i class="fas fa-file-export"></i>&ensp;Export Data</a>
+                                                </button>
                                             <?php } ?>
                                         </div>
                                         <div class="table-responsive">
@@ -81,42 +79,3 @@
                 <!-- ============================================================== -->
                 <!-- End Container fluid  -->
                 <!-- ============================================================== -->
-
-                <!-- Edit modal content -->
-                <div id="export-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog d-flex align-items-center">
-                        <div class="modal-content p-3">
-
-                            <div class="modal-body">
-                                <div class="text-center mt-2 mb-4">
-                                    <a href="index.html" class="text-success">
-                                        <span><img class="mr-2" src="<?= base_url(); ?>assets/images/logo.png" alt="" height="50"></span>
-                                    </a>
-                                    <h5 class="mt-3">Export Data</h5>
-                                </div>
-                                <?php if ($this->session->userdata('role_id') == '1' || $this->session->userdata('role_id') == '2') { ?>
-                                    <div class="form-group pl-3">
-                                        <button class="btn btn-warning" type="button" onclick="window.open('<?= base_url('pegawai/export'); ?>')"><i class="fas fa-sticky-note"></i> All</button>
-                                    </div>
-                                <?php } ?>
-                                <form class="pl-3 pr-3" action="<?= base_url('pegawai/export'); ?>" method="post">
-                                    <div class="form-group">
-                                        <label for="username">User Name</label>
-                                        <select name="user_id" id="user_id" class="form-control" required>
-                                            <optgroup label="Masukkan Pilihan">
-                                                <?php foreach ($semuauser as $su) : ?>
-                                                    <option value="<?= $su['user_id'] ?>"><?= $su['name'] ?></option>
-                                                <?php endforeach ?>
-                                            </optgroup>
-                                        </select>
-                                    </div>
-                                    <div class="form-group text-center">
-                                        <button class="btn btn-primary" type="submit">Submit</button>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End modal content -->

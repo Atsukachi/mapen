@@ -112,37 +112,33 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <h2>Tabel Presensi Pegawai</h2>
-                                        <h6 class="card-subtitle">Tabel digunakan untuk mengubah <code>"daftar presensi pegawai"</code> aplikasi MAPEN.
-                                        </h6>
-                                        <?php
-                                        //ubah timezone menjadi jakarta
-                                        date_default_timezone_set("Asia/Jakarta");
-
-                                        //ambil jam, menit dan detik
-                                        $jam = date('H:i:s');
-
-                                        //atur salam menggunakan IF
-                                        $data['salam'] = $this->db->get('status')->result();
-                                        $salam = $data['salam'];
-                                        foreach ($salam as $s) {
-                                            if ($jam > $s->jam_datang && $jam < $s->jam_pulang) {
-                                                //tampilkan pesan
-                                                echo 'Selamat ' . $s->status . ',' . $user['name'] . '!';
-                                            }
-                                        }
-                                        ?>
+                                        <h6 class="card-subtitle">Tabel digunakan untuk mengubah <code>"daftar presensi pegawai"</code> aplikasi MAPEN.</h6>
                                     </div>
-                                    <div class="card-body table-border-style">
-                                        <div class="table-responsive pb-3">
-                                            <div class="panel-body mb-2" style="height:400px;" id="map-canvas"></div>
+                                    <div class="card-body pb-1">
+                                        <div class="panel-body mb-2" style="height:400px;" id="map-canvas"></div>
+                                        <div class="row">
                                             <?php if ($this->session->userdata('role_id') == '1' || $this->session->userdata('role_id') == '2') { ?>
-                                                <div style="padding-top: 15px;">
-                                                    <?php $id = $this->uri->segment(3, 0); ?>
-                                                    <button class="btn waves-effect waves-light btn-success">
-                                                        <a class="text-white" href="<?= base_url('pegawai/export_detail/' . $id) ?>"> <i class="fas fa-file-export"></i>&ensp;Export Data</a>
-                                                    </button>
+                                                <div class="col-auto">
+                                                    <div style="padding-top: 15px;">
+                                                        <?php $id = $user['user_id'] ?>
+                                                        <button class="btn waves-effect waves-light btn-success">
+                                                            <a class="text-white" href="<?= base_url('pegawai/export_detail/' . $id) ?>"> <i class="fas fa-file-export"></i>&ensp;Export Data</a>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             <?php } ?>
+                                            <div class="col-auto">
+                                                <div style="padding-top: 15px;">
+                                                    <?php $id = $user['user_id'] ?>
+                                                    <button class="btn waves-effect waves-light btn-warning">
+                                                        <a class="text-dark" data-toggle="modal" data-target="#chart-modal"><i class="fas fa-chart-line"></i>&ensp;Lihat Grafik</a>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body table-border-style pt-1">
+                                        <div class="table-responsive pb-3">
                                             <table id="multi_col_order" class="table table-striped table-bordered display no-wrap" style="width:100%">
                                                 <thead>
                                                     <tr>
@@ -217,6 +213,88 @@
                     <!-- End Page Content -->
                     <!-- ============================================================== -->
                 </div>
+                <!-- Signup modal content -->
+                <div id="chart-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Chart Presensi "<?= $user['name'] ?>" per Bulan</h4>
+                                        <?php foreach ($presensi_bulan as $pb) {
+                                            $bln[] = $pb->bln;
+                                            $tw_bulan[] = $pb->tepatwaktu;
+                                            $tl_bulan[] = $pb->terlambat;
+                                        } ?>
+                                        <div id="chart-line-stroke"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
                 <!-- ============================================================== -->
                 <!-- End Container fluid  -->
                 <!-- ============================================================== -->
+                <script>
+                    // @formatter:off
+                    document.addEventListener("DOMContentLoaded", function() {
+                        window.ApexCharts && (new ApexCharts(document.getElementById('chart-line-stroke'), {
+                            chart: {
+                                type: "line",
+                                fontFamily: 'inherit',
+                                height: 240,
+                                parentHeightOffset: 0,
+                                toolbar: {
+                                    show: true,
+                                },
+                                animations: {
+                                    enabled: true
+                                },
+                            },
+                            fill: {
+                                opacity: 1,
+                            },
+                            stroke: {
+                                width: 2,
+                                lineCap: "round",
+                                curve: "straight",
+                            },
+                            series: [{
+                                name: "Tepat Waktu",
+                                data: <?= json_encode($tw_bulan); ?>
+                            }, {
+                                name: "Terlambat",
+                                data: <?= json_encode($tl_bulan); ?>
+                            }],
+                            grid: {
+                                padding: {
+                                    top: -20,
+                                    right: 0,
+                                    left: -4,
+                                    bottom: -4
+                                },
+                                strokeDashArray: 4,
+                            },
+                            xaxis: {
+                                labels: {
+                                    padding: 0
+                                },
+                                tooltip: {
+                                    enabled: false
+                                },
+                                categories: <?= json_encode($bln); ?>,
+                            },
+                            yaxis: {
+                                labels: {
+                                    padding: 4
+                                },
+                            },
+                            colors: ["#28a745", "#dc3545"],
+                            legend: {
+                                show: true,
+                            },
+                        })).render();
+                    });
+                    // @formatter:on
+                </script>

@@ -79,7 +79,7 @@
                             foreach ($salam as $s) {
                                 if ($jam > $s->jam_datang && $jam < $s->jam_pulang) {
                                     //tampilkan pesan
-                                    echo 'Selamat ' . $s->status . ',' . $user['name'] . '!';
+                                    echo 'Selamat ' . $s->status . ', ' . $user['name'] . '!';
                                 }
                             }
                             ?>

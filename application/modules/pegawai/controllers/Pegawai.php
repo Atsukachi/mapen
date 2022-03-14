@@ -336,6 +336,7 @@ class Pegawai extends CI_Controller
 		$data['get_jmlpresensi'] = $this->pegawai->getJumlahPresensiById($id)->result_array();
 		$data['get_totalpresensi'] = $this->pegawai->getTotalPresensiById($id)->result_array();
 		$data['get_tot'] = $this->pegawai->getTotalById($id)->result_array();
+		$data['presensi_bulan'] = $this->pegawai->getPresensibyBulan()->result();
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/topbar', $data);

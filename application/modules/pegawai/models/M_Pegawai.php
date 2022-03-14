@@ -37,6 +37,28 @@ class M_Pegawai extends CI_Model
         }
     }
 
+    function getPresensibyBulan()
+    {
+        $user_id = $this->session->userdata('user_id');
+        $tahun = date("Y");
+        $query = "SELECT id_bulan, nama_bulan as bln, tepatwaktu, terlambat from bulan 
+        LEFT JOIN( 
+            SELECT MONTH(date) AS name, COUNT(id) AS tepatwaktu
+            FROM presensi 
+            WHERE YEAR(date) = '$tahun' AND cek_presensi = 1 AND user_id = $user_id
+            GROUP BY MONTH(date)
+            ) 
+        tw ON (bulan.id_bulan=tw.name)
+         LEFT JOIN( 
+            SELECT MONTH(date) AS name, COUNT(id) AS terlambat
+            FROM presensi 
+            WHERE YEAR(date) = '$tahun' AND cek_presensi = 2 AND user_id = $user_id
+            GROUP BY MONTH(date)
+            ) 
+        tl ON (bulan.id_bulan=tl.name) ORDER BY bulan.id_bulan ASC";
+        return $this->db->query($query);
+    }
+
     public function getUserExport()
     {
         if ($this->session->userdata('role_id') == 1) {

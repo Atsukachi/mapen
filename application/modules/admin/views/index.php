@@ -83,14 +83,6 @@
             		</div>
             	</div>
             	<!-- column -->
-            	<!-- <?php
-						$a = time();
-						$b = time() + 28800;
-						var_dump($a);
-						var_dump($b);
-						var_dump(date('H:i:s', $a));
-						var_dump(date('H:i:s', $b));
-						?> -->
             	<div class="row">
             		<div class="col-md-7">
             			<div class="card">
