@@ -10,7 +10,7 @@ protected static
    $front_theme = 'front',
    $admin_theme = 'admin';
 
-   function__construct(){
+   function __construct(){
 
       parent::__construct();
  
