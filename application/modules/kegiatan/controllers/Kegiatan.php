@@ -80,8 +80,8 @@ class Kegiatan extends CI_Controller
         ->setCellValue('D' . $kolom, $ga->uraian)
         ->setCellValue('E' . $kolom, $ga->nama_skp)
         ->setCellValue('F' . $kolom, $ga->name)
-        ->setCellValue('G' . $kolom, date('Y-m-d', strtotime($ga->tanggal)))
-        ->setCellValue('H' . $kolom, date('H:i:s', strtotime($ga->tanggal)))
+        ->setCellValue('G' . $kolom, date("Y-m-d", $ga->tanggal))
+        ->setCellValue('H' . $kolom, date("H:i:s", $ga->tanggal))
         ->setCellValue('I' . $kolom, '=Hyperlink("' . $link . '")')
         ->setCellValue('J' . $kolom, $ga->extension);
 
@@ -137,8 +137,8 @@ class Kegiatan extends CI_Controller
         ->setCellValue('D' . $kolom, $ga->uraian)
         ->setCellValue('E' . $kolom, $ga->nama_skp)
         ->setCellValue('F' . $kolom, $ga->name)
-        ->setCellValue('G' . $kolom, date('Y-m-d', strtotime($ga->tanggal)))
-        ->setCellValue('H' . $kolom, date('H:i:s', strtotime($ga->tanggal)))
+        ->setCellValue('G' . $kolom, date("Y-m-d", $ga->tanggal))
+        ->setCellValue('H' . $kolom, date("H:i:s", $ga->tanggal))
         ->setCellValue('I' . $kolom, '=Hyperlink("' . $link . '")')
         ->setCellValue('J' . $kolom, $ga->extension);
 
@@ -181,7 +181,7 @@ class Kegiatan extends CI_Controller
     $code = "$kode->kegiatan_code";
     $kegiatan = $this->kegiatan->getLastKegiatan($hari, $bulan, $tahun, $code)->row_array();
     $nomorterakhir = $kegiatan['kegiatan_id'];
-    $kegiatan_id = buatkode($nomorterakhir, $code . $hari . $bulan . $thn, 4);
+    $kegiatan_id = buatkode($nomorterakhir, $code . $hari . $bulan . $thn, 3);
     $data['kegiatan_id'] = $kegiatan_id;
 
     $this->load->view('templates/header', $data);
@@ -263,19 +263,24 @@ class Kegiatan extends CI_Controller
           }
           $ext_file = $this->file_categories;
         }
+        $contoh = $_POST['uraian'][0];
+        $find = array("<p>", "</p>");
+        $result_uraian = str_replace($find, "", $contoh);
 
         $data[$i] = array(
           'kegiatan_id' => $_POST['kegiatan_id'][0],
           'unitkerja' => $_POST['unit_kerja'][0],
-          'uraian' => $_POST['uraian'][0],
+          'uraian' => $result_uraian,
           'skp' => $_POST['skp_id'][0],
           'user' => $_POST['user'][0],
           'tanggal' => $_POST['tanggal'][0],
+          'date_created' => $_POST['date_created'][0],
           'file' => $files,
           'file_categories' => $ext_file
         );
       }
     }
+
     // var_dump($data);
     $this->db->insert_batch('kegiatan', $data);
 
@@ -343,11 +348,20 @@ class Kegiatan extends CI_Controller
     }
     $id = $this->input->post('id');
 
+    $datetime = $this->input->post('datetime');
+    $date_created = str_replace("T", " ", $datetime);
+    // var_dump($date_created);
+
+    date_default_timezone_set("Asia/Jakarta");
+    $date = new DateTimeImmutable($date_created);
+    $timemilis = (int) ($date->getTimestamp() . $date->format('v'));
+    // var_dump($timemilis);
+
     $config['upload_path']   = FCPATH . './assets/document/kegiatan/';
     $config['allowed_types'] = 'jpg|png|jpeg|pdf|docx|doc|csv|xlsx|xls|pptx|ppt|mp4|mpeg|mkv|rar|zip';
     $config['max_size']      = 102400;
     $config['encrypt_name']  = False;
-    $config['file_name'] = url_title($this->input->post('file'));
+    $config['file_name']     = url_title($this->input->post('file'));
     $this->upload->initialize($config);
 
     // File Upload
@@ -356,9 +370,9 @@ class Kegiatan extends CI_Controller
         'kegiatan_id' => $this->input->post('kegiatan_id'),
         'unitkerja' => $this->input->post('unit_kerja'),
         'uraian' => $this->input->post('uraian'),
-        'skp' => $this->input->post('skp'),
         'user' => $this->input->post('user'),
-        'tanggal' => $this->input->post('tanggal')
+        'tanggal' => $timemilis,
+        'date_created' => $date_created
       );
       $this->db->where('id', $id);
       $this->db->update('kegiatan', $data);
@@ -434,15 +448,18 @@ class Kegiatan extends CI_Controller
       }
 
       $ext_file = $this->file_categories;
+
       $data = array(
         'kegiatan_id' => $this->input->post('kegiatan_id'),
         'unitkerja' => $this->input->post('unit_kerja'),
         'uraian' => $this->input->post('uraian'),
         'user' => $this->input->post('user'),
-        'tanggal' => $this->input->post('tanggal'),
+        'tanggal' => $timemilis,
+        'date_created' => $date_created,
         'file' => $new_file,
         'file_categories' => $ext_file
       );
+
       $this->db->where('id', $id);
       $this->db->update('kegiatan', $data);
       // var_dump($data);

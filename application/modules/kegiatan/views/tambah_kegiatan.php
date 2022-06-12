@@ -52,7 +52,16 @@
                         </div>
                         <div class="form-group">
                           <label for="Tanggal">Tanggal</label>
-                          <input type="datetime-local" class="form-control" name="tanggal[]" alt="1" id="tanggal1" min="<?= date('Y-m-d\TH:i:s') ?>" value="<?= date('Y-m-d\TH:i:s') ?>" required>
+                          <?php
+                          $time = floor(microtime(true));
+                          $timemilis = floor(microtime(true) * 1000);
+                          $waktu = date("H:i:s", $time);
+                          $tanggal = date("Y-m-d", $time);
+                          $tgl = tgl_indo($tanggal);
+                          ?>
+                          <input type="hidden" readonly class="form-control" name="tanggal[]" alt="1" id="tanggal1" value="<?= $timemilis ?>" required>
+                          <input type="hidden" readonly class="form-control" name="date_created[]" alt="1" id="date_created1" value="<?= $tanggal . " " . $waktu ?>" required>
+                          <input type="text" readonly class="form-control" name="timemilis" id="timemilis" value="<?= $tgl . ", " . $waktu ?>" required>
                         </div>
                         <div class="form-group">
                           <label for="File">File*</label>

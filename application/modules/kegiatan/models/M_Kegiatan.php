@@ -14,9 +14,9 @@ class M_Kegiatan extends CI_Model
     $this->db->join('kegiatancode', 'user.role_id = kegiatancode.id', 'left');
     $this->db->order_by('kegiatan.kegiatan_id', 'DESC');
     $this->db->where('kegiatancode.kegiatan_code=', $code);
-    $this->db->where('DAY(tanggal)', $hari);
-    $this->db->where('MONTH(tanggal)', $bulan);
-    $this->db->where('YEAR(tanggal)', $tahun);
+    $this->db->where('DAY(date_created)', $hari);
+    $this->db->where('MONTH(date_created)', $bulan);
+    $this->db->where('YEAR(date_created)', $tahun);
     $this->db->limit(1);
     return $this->db->get();
   }

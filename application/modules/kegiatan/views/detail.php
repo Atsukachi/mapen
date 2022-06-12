@@ -50,6 +50,13 @@
                                               <?php $i = 1; ?>
                                               <?php foreach ($keg as $kg) : ?>
                                                   <tr>
+                                                      <?php
+                                                        date_default_timezone_set("Asia/Jakarta");
+                                                        $milis = $kg->tanggal / 1000;
+                                                        $waktu = date("H:i:s", $milis);
+                                                        $tanggal = date("Y-m-d", $milis);
+                                                        $tgl = tgl_indo($tanggal);
+                                                        ?>
                                                       <td class="align-middle"><?= $kg->kegiatan_id ?></td>
                                                       <td class="align-middle">
                                                           <?php foreach ($unit_kerja as $uk) : ?>
@@ -75,7 +82,7 @@
                                                               <?= $kg->user ?>
                                                           </td>
                                                       <?php } ?>
-                                                      <td class="align-middle"><?= $kg->tanggal; ?></td>
+                                                      <td class="align-middle"><?= $tgl . ', ' . $waktu; ?></td>
                                                       <td class="align-middle">
                                                           <?php
                                                             if ($kg->file_categories == '1') { ?>

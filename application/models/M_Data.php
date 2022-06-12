@@ -6,11 +6,145 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_Data extends CI_Model
 {
-
+	// Login
 	public function user_login($email)
 	{
 		$query = "SELECT * FROM `user` WHERE `user`.`email`= '$email'";
 		return $this->db->query($query)->row();
+	}
+
+	// SKP
+	public function getMonth()
+	{
+		$query = "SELECT * FROM `bulan`";
+		return $this->db->query($query)->result();
+	}
+
+	public function getIdMonth($bulan_nama)
+	{
+		$query = "SELECT `id_bulan` FROM `bulan` WHERE `nama_bulan` = '$bulan_nama'";
+		return $this->db->query($query)->row();
+	}
+
+	public function getSKP($id_user)
+	{
+		$query = "SELECT `skp`.*, `bulan`.`nama_bulan`,
+					(SELECT COUNT(id) FROM `kegiatan`
+	 				WHERE `kegiatan`.`user` = $id_user 
+	 				AND `kegiatan`.`skp` = `skp`.`id_skp`) AS jml_kegiatan 
+					FROM `skp`
+					LEFT JOIN `bulan`
+					on `bulan`.`id_bulan` = `skp`.`bulan`
+					WHERE `skp`.`user` = $id_user";
+		return $this->db->query($query)->result();
+	}
+
+	public function getSKPbyID($id_user)
+	{
+		$bulan = date('m');
+		$tahun = date('Y');
+		$query = "SELECT `skp`.`id_skp`, `skp`.`nama_skp`
+					FROM `skp`
+					LEFT JOIN `bulan`
+					on `bulan`.`id_bulan` = `skp`.`bulan`
+					WHERE `skp`.`user` = $id_user AND `skp`.`bulan` = $bulan AND `skp`.`tahun` = $tahun";
+		return $this->db->query($query)->result();
+	}
+
+	// Profil
+	public function getImageProfile($user_id)
+	{
+		$query = "SELECT `image` FROM `user` WHERE `user_id` = '$user_id'";
+		return $this->db->query($query)->row();
+	}
+
+	public function getKeahlianProfile($user_id)
+	{
+		$query = "SELECT `keahlian` FROM `user` WHERE `user_id` = '$user_id'";
+		return $this->db->query($query)->row();
+	}
+
+	// Log Kegiatan
+	public function getUnitKerja()
+	{
+		$query = "SELECT * FROM `unit_kerja`";
+		return $this->db->query($query)->result();
+	}
+
+	public function getFileLogKegiatan($id)
+	{
+		$query = "SELECT `file` FROM `kegiatan` WHERE `id` = '$id'";
+		return $this->db->query($query)->row();
+	}
+
+	public function getIdUnitKerja($unitkerja)
+	{
+		$query = "SELECT `id_unit_kerja` FROM `unit_kerja` WHERE `nama_unit_kerja` = '$unitkerja'";
+		return $this->db->query($query)->row();
+	}
+
+	public function getLogKegiatan($id_user)
+	{
+		$query = "SELECT `kegiatan`.*, `file`.`extension`, `unit_kerja`.`nama_unit_kerja`, `skp`.`nama_skp`
+					FROM `kegiatan`
+					LEFT JOIN `file`
+					on `file`.`file_id` = `kegiatan`.`file_categories`
+					LEFT JOIN `skp`
+					on `skp`.`id_skp` = `kegiatan`.`skp`
+					LEFT JOIN `unit_kerja`
+					on `unit_kerja`.`id_unit_kerja` = `kegiatan`.`unitkerja`
+					WHERE `kegiatan`.`user` = $id_user
+					ORDER BY `kegiatan`.`date_created` DESC";
+		return $this->db->query($query)->result();
+	}
+
+	// public function getIdKegiatan($id_user)
+	// {
+	// 	// Get Kode Kegiatan
+	// 	$kode = $this->data->getKegiatanKode($id_user);
+	// 	error_reporting(0);
+
+	// 	$hari = date('d');
+	// 	$bulan = date('m');
+	// 	$tahun = date('Y');
+	// 	$thn = substr($tahun, 2, 2);
+	// 	$code = "$kode->kegiatan_code";
+	// 	$kegiatan = $this->data->getLastKegiatan($hari, $bulan, $tahun, $code)->row_array();
+	// 	$nomorterakhir = $kegiatan['kegiatan_id'];
+	// 	$get_kodekeg = buatkode($nomorterakhir, $code . $hari . $bulan . $thn, 4);
+	// 	return $get_kodekeg;
+	// }
+
+	public function getIdSKP($nama_skp, $id_user)
+	{
+		$query = "SELECT `id_skp` FROM `skp` WHERE `nama_skp` = '$nama_skp' AND `user` = '$id_user'";
+		return $this->db->query($query)->row();
+	}
+
+	public function getKegiatanKode($id_user)
+	{
+		$query = "SELECT `kegiatancode`.`kegiatan_code`,`user`.* 
+			FROM `kegiatancode` LEFT JOIN `user` ON `user`.`role_id` = `kegiatancode`.`id` 
+			WHERE `user`.`user_id` = '" . $id_user . "'";
+		return $this->db->query($query)->row();
+	}
+
+	public function getLastKegiatan($hari, $bulan, $tahun, $code)
+	{
+		$data['user'] = $this->db->get_where('user', ['email' =>
+		$this->session->userdata('email')])->row_array();
+
+		$this->db->select('kegiatan.kegiatan_id');
+		$this->db->from('kegiatan');
+		$this->db->join('user', 'kegiatan.user = user.user_id', 'left');
+		$this->db->join('kegiatancode', 'user.role_id = kegiatancode.id', 'left');
+		$this->db->order_by('kegiatan.kegiatan_id', 'DESC');
+		$this->db->where('kegiatancode.kegiatan_code=', $code);
+		$this->db->where('DAY(tanggal)', $hari);
+		$this->db->where('MONTH(tanggal)', $bulan);
+		$this->db->where('YEAR(tanggal)', $tahun);
+		$this->db->limit(1);
+		return $this->db->get();
 	}
 
 	//    public function get_kelas_online($nisn){

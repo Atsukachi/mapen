@@ -65,4 +65,42 @@ class C_Login extends RestController
 			);
 		}
 	}
+
+	// public function register()
+	// {
+	// 	// json response array
+	// 	$response = array("error" => FALSE);
+	// 	$insertArray = array();
+
+	// 	// menerima parameter POST ( name, email, password dan repassword )
+	// 	$name = $_POST['name'];
+	// 	$email = $_POST['email'];
+	// 	$password = $_POST['password'];
+	// 	$password2 = $_POST['password2'];
+
+	// 	$user = $this->db->get_where('user', ['email' => $email])->num_rows();
+	// 	if ($user == 0) {
+	// 		if ($password == $password2) {
+	// 			$response["error"] = FALSE;
+	// 			$response["error_msg"] = "Register berhasil";
+	// 			$response["user"]["name"] = $name;
+	// 			$response["user"]["email"] = $email;
+	// 			$response["user"]["image"] = "user.jpg";
+	// 			$response["user"]["password"] = password_hash($password, PASSWORD_DEFAULT);
+	// 			$response["user"]["role_id"] = 3;
+	// 			echo json_encode($response, JSON_PRETTY_PRINT);
+
+	// 			array_push($insertArray, $response['user']);
+	// 			$this->db->insert_batch('user', $insertArray);
+	// 		} else {
+	// 			$response["error"] = TRUE;
+	// 			$response["error_msg"] = "Register gagal, password salah";
+	// 			echo json_encode($response, JSON_PRETTY_PRINT);
+	// 		}
+	// 	} else {
+	// 		$response["error"] = TRUE;
+	// 		$response["error_msg"] = "User telah ada dengan email " . $email;
+	// 		echo json_encode($response, JSON_PRETTY_PRINT);
+	// 	}
+	// }
 }
