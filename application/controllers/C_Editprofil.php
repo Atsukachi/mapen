@@ -78,6 +78,7 @@ class C_Editprofil extends RestController
             $config['upload_path'] = $file_path;
             $config['allowed_types'] = 'docx|doc|pdf';
             $config['max_size'] = '20480';
+            $config['file_name'] = url_title($this->input->post('keahlian'));
 
             $this->upload->initialize($config);
             $this->load->library('upload', $config);
@@ -89,6 +90,7 @@ class C_Editprofil extends RestController
                     'telephone' => '62' . $telephone
                 );
 
+                // $this->response($data, 200);
                 $this->db->where('user_id', $user_id);
                 $insert = $this->db->update('user', $data);
 
@@ -98,7 +100,9 @@ class C_Editprofil extends RestController
                     $this->response(array('status' => 'Failed', 502));
                 }
             } else {
-                $keahlian = $_FILES['keahlian']['name'];
+                $data2 = $this->upload->data();
+                $keahlian = $data2['file_name'];
+
                 $queryFile = $this->data->getKeahlianProfile($user_id);
                 $oldfile = $queryFile->keahlian;
 
@@ -131,6 +135,8 @@ class C_Editprofil extends RestController
                             'keahlian' => $keahlian
                         );
                     }
+
+                    // $this->response($data, 200);
                     $this->db->where('user_id', $user_id);
                     $insert = $this->db->update('user', $data);
 
@@ -165,6 +171,8 @@ class C_Editprofil extends RestController
                             'keahlian' => $keahlian
                         );
                     }
+
+                    // $this->response($data, 200);
 
                     $this->db->where('user_id', $user_id);
                     $insert = $this->db->update('user', $data);

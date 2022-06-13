@@ -52,6 +52,7 @@ class C_Editlogkegiatan extends RestController
             $config['upload_path']      = FCPATH . './assets/document/kegiatan/';
             $config['allowed_types']    = 'jpg|png|jpeg|pdf|docx|doc|csv|xlsx|xls|pptx|ppt|mp4|mpeg|mkv|rar|zip';
             $config['max_size']         = '20480';
+            $config['file_name']        = url_title($this->input->post('keahlian'));
 
             $this->upload->initialize($config);
             $this->load->library('upload', $config);
