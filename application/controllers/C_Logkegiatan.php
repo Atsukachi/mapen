@@ -10,6 +10,7 @@ class C_Logkegiatan extends RestController
     {
         parent::__construct();
         $this->load->model('M_Data', 'data');
+        $this->load->helper('text');
         date_default_timezone_set("Asia/Jakarta");
     }
 
@@ -35,6 +36,7 @@ class C_Logkegiatan extends RestController
                 'uraian'            => $result->uraian,
                 'skp'               => $result->skp,
                 'nama_unit_kerja'   => $result->nama_unit_kerja,
+                'nama_skp_limit'    => word_limiter($result->nama_skp, 4, "..."),
                 'nama_skp'          => $result->nama_skp,
                 'user'              => $result->user,
                 'tanggal'           => $format_indo . ", " . $time,

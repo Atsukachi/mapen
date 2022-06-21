@@ -9,12 +9,6 @@ class C_Table extends CI_Controller
 		$this->load->model('M_Data', 'data');
 	}
 
-	public function skp()
-	{
-		$user_id = $this->input->get('user_id');
-		echo json_encode($this->data->getSKP($user_id));
-	}
-
 	public function skpbyid()
 	{
 		$user_id = $this->input->get('user_id');

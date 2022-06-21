@@ -35,7 +35,8 @@ class M_Data extends CI_Model
 					FROM `skp`
 					LEFT JOIN `bulan`
 					on `bulan`.`id_bulan` = `skp`.`bulan`
-					WHERE `skp`.`user` = $id_user";
+					WHERE `skp`.`user` = $id_user
+					ORDER BY `skp`.`bulan` DESC";
 		return $this->db->query($query)->result();
 	}
 
@@ -98,23 +99,6 @@ class M_Data extends CI_Model
 		return $this->db->query($query)->result();
 	}
 
-	// public function getIdKegiatan($id_user)
-	// {
-	// 	// Get Kode Kegiatan
-	// 	$kode = $this->data->getKegiatanKode($id_user);
-	// 	error_reporting(0);
-
-	// 	$hari = date('d');
-	// 	$bulan = date('m');
-	// 	$tahun = date('Y');
-	// 	$thn = substr($tahun, 2, 2);
-	// 	$code = "$kode->kegiatan_code";
-	// 	$kegiatan = $this->data->getLastKegiatan($hari, $bulan, $tahun, $code)->row_array();
-	// 	$nomorterakhir = $kegiatan['kegiatan_id'];
-	// 	$get_kodekeg = buatkode($nomorterakhir, $code . $hari . $bulan . $thn, 4);
-	// 	return $get_kodekeg;
-	// }
-
 	public function getIdSKP($nama_skp, $id_user)
 	{
 		$query = "SELECT `id_skp` FROM `skp` WHERE `nama_skp` = '$nama_skp' AND `user` = '$id_user'";
@@ -145,6 +129,74 @@ class M_Data extends CI_Model
 		$this->db->where('YEAR(tanggal)', $tahun);
 		$this->db->limit(1);
 		return $this->db->get();
+	}
+
+	// Presensi
+	public function getMetodeKerja()
+	{
+		$query = "SELECT * FROM `kerja`";
+		return $this->db->query($query)->result();
+	}
+
+	public function getRiwayat($getdata)
+	{
+		$this->load->helper('mapen_helper');
+		$query = "SELECT `riwayat`.*, `status`.*
+					FROM `riwayat`
+					LEFT JOIN `status`
+					on `riwayat`.`status_id` = `status`.`id_status`
+					WHERE `status`.`status` = '$getdata'";
+		return $this->db->query($query)->result();
+	}
+
+	public function getDataPresensi($id_user, $riwayat)
+	{
+		$tgl = date("Y-m-d");
+		$this->load->helper('mapen_helper');
+		$query = "SELECT `riwayat`.*, `status`.*, 
+        	(SELECT COUNT(`id`) FROM `presensi` WHERE `user_id` = '$id_user' AND `date` = '$tgl' AND `presensi`.`riwayat` = `riwayat`.`id_riwayat`) as `cek_p`,
+        	(SELECT COUNT(`riwayat`) FROM `presensi` WHERE `user_id` = '$id_user' AND `date` = '$tgl' AND `riwayat`.`riwayat` = 'Jam Datang') as `p_cek`
+        	FROM `riwayat` LEFT JOIN `status` ON `riwayat`.`status_id` = `status`.`id_status` WHERE `status`.`status` = '" . salam_jam() . "' AND `riwayat`.`riwayat` = '$riwayat'";
+		return $this->db->query($query)->row();
+	}
+
+	public function getStatus()
+	{
+		$query = "SELECT * FROM `status`";
+		return $this->db->query($query)->result();
+	}
+
+	public function getPresensi($user_id)
+	{
+		$query = "SELECT `presensi`.*
+					FROM `presensi`
+					LEFT JOIN `riwayat`
+					on `presensi`.`riwayat` = `riwayat`.`id_riwayat`
+					LEFT JOIN `status`
+					on `presensi`.`status` = `status`.`id_status`
+					LEFT JOIN `kerja`
+					on `presensi`.`kerja` = `kerja`.`id_kerja`
+					WHERE `presensi`.`user_id` = $user_id
+					ORDER BY `presensi`.`date` DESC";
+		return $this->db->query($query)->result();
+	}
+
+	public function getRiwayatPresensi($id_riwayat)
+	{
+		$query = "SELECT * FROM `riwayat` WHERE `riwayat`.`id_riwayat` = $id_riwayat";
+		return $this->db->query($query)->row();
+	}
+
+	public function getStatusPresensi($id_status)
+	{
+		$query = "SELECT * FROM `status` WHERE `status`.`id_status` = $id_status";
+		return $this->db->query($query)->row();
+	}
+
+	public function getKerjaPresensi($id_kerja)
+	{
+		$query = "SELECT * FROM `kerja` WHERE `kerja`.`id_kerja` = $id_kerja";
+		return $this->db->query($query)->row();
 	}
 
 	//    public function get_kelas_online($nisn){

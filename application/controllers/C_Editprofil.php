@@ -28,7 +28,8 @@ class C_Editprofil extends RestController
             if (!$this->upload->do_upload('image')) {
                 $this->response(array('status' => 'Failed', 502));
             } else {
-                $image = $_FILES['image']['name'];
+                $datafoto = $this->upload->data();
+                $image = $datafoto['file_name'];
                 $queryImage = $this->data->getImageProfile($user_id);
                 $oldimage = $queryImage->image;
 
@@ -78,7 +79,6 @@ class C_Editprofil extends RestController
             $config['upload_path'] = $file_path;
             $config['allowed_types'] = 'docx|doc|pdf';
             $config['max_size'] = '20480';
-            $config['file_name'] = url_title($this->input->post('keahlian'));
 
             $this->upload->initialize($config);
             $this->load->library('upload', $config);
