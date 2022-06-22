@@ -85,7 +85,7 @@ class C_Presensi extends RestController
 
             foreach ($salam as $s) :
                 if ($status == $s->id_status) {
-                    if (!$this->upload->do_upload('image')) {
+                    if (!$this->upload->do_upload('foto')) {
                         $cek_terlambat = date('H:i:s', strtotime($s->jam_datang . '+30 minute'));
                         if ($jam_now > $s->jam_datang && $jam_now < $cek_terlambat) {
                             $data =
